@@ -1,0 +1,37 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "me.champeau.gradle:jmh-gradle-plugin:0.4.8"
+    }
+}
+
+apply plugin: "idea"
+apply plugin: "groovy"
+apply plugin: "java"
+apply plugin: "me.champeau.gradle.jmh"
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:3.0.0-beta-1'
+}
+
+jmh {
+    include = ['bench\\.*']
+    benchmarkMode = ['avgt']
+    timeUnit = 'ms'
+    iterations = 42
+    timeOnIteration = '1s'
+    warmup = '30s'
+    warmupIterations = 1
+    batchSize = 1
+    fork = 1
+    profilers = ["stack"]
+}
